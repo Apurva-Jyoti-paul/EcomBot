@@ -13,19 +13,27 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import django_heroku
 import os
+import environ
+
+# configure DEBUG environmental variable, default is False for production.
+env = environ.Env(
+    DEBUG=(bool, False)
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+environ.Env.read_env(str(BASE_DIR / '.env'))
+TOKEN, SOURCE, SRC_NAME = env('TOKEN'), env('SOURCE'), env('SRC_NAME')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# SECURITY WARNING: keep the secret key used in production secret! - TODO
 SECRET_KEY = 'django-insecure-dg9wpb3m)+o#^8w75%hp-_g(92eg^+90_r^4u%-l=-*(&%9z=o'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
