@@ -9,3 +9,16 @@ class message(models.Model):
     countrycode= models.CharField(max_length=5,null=True,blank=True,default="91")
     dialcode= models.CharField(max_length=20,null=True,blank=True)
 # Create your models here.
+
+
+class customer(models.Model):
+    number= models.CharField(max_length=1000,primary_key=True)
+    last_product_id=models.IntegerField(null=True,blank=True)
+    product_searched= models.CharField(max_length=1000,null=True,blank=True)
+    
+
+class products(models.Model):
+    name=models.CharField(max_length=1000)
+    price=models.IntegerField(null=True,blank=True)
+    short_desc=models.CharField(max_length=1000)
+    page=models.URLField()

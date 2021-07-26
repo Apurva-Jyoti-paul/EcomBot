@@ -13,9 +13,16 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import django_heroku
 import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(str(BASE_DIR / '.env'))
+
+TOKEN = os.getenv('TOKEN')
+SOURCE = os.getenv('SOURCE')
+SRC_NAME = os.getenv('SRC_NAME')
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +32,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-dg9wpb3m)+o#^8w75%hp-_g(92eg^+90_r^4u%-l=-*(&%9z=o'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True          ### change before production
 
 ALLOWED_HOSTS = ['*']
 
