@@ -19,6 +19,7 @@ class customer(models.Model):
 
 class products(models.Model):
     name=models.CharField(max_length=1000)
-    price=models.IntegerField(null=True,blank=True)
+    #price=models.IntegerField(null=True,blank=True)
+    price=models.CharField(max_length=1000,default='100.11')
     short_desc=models.CharField(max_length=1000)
     page=models.URLField()
