@@ -2,7 +2,7 @@ import json
 
 import requests
 
-from .constants import (HEADERS, MSG_LST, MSG_QCK, MSG_TXT, PAYLOAD,
+from .constants import (HEADERS, MSG_IMG, MSG_LST, MSG_QCK, MSG_TXT, PAYLOAD,
                         SEND_MSG_URL)
 
 
@@ -100,6 +100,39 @@ def send_qck_msg(dest:str, ctn:dict, opts:list) -> int:
             'title':opt['title'],
             'postbackText':opt['postbackText']
         }
+
+    _r = _set_params_and_post(dest, _msg)
+
+    return _r.status_code
+
+
+def send_img_msg(dest:str, ourl:str, purl:str, caption:str='', filename:str='') -> int:
+    """
+    To send an image message
+
+    :param dest: A  non-empty string representing the 12-digit destination phone number.
+    :param ourl: A non empty string representing originalUrl parameter.
+    :param purl: A non empty string representing previewUrl parameter.
+    :param caption:(Optional) A string representing the caption to image message.
+    :param filename:(Optional) A string representing the file name.
+    :return: An integer, the status code of the response.
+
+    Only JPG/PNG images are supported and besides only the following ones can be used to test, while being in the sandbox
+    
+    JPG
+    https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg
+    https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample02.jpg
+
+    PNG
+    https://www.buildquickbots.com/whatsapp/media/sample/png/sample01.png
+    https://www.buildquickbots.com/whatsapp/media/sample/png/sample02.png
+    """
+
+    _msg = MSG_IMG
+    _msg['originalUrl'] = ourl
+    _msg['previewUrl'] = purl
+    _msg['caption'] = caption
+    _msg['filename'] = filename
 
     _r = _set_params_and_post(dest, _msg)
 

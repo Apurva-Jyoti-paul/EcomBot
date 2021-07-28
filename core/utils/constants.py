@@ -53,3 +53,10 @@ MSG_QCK = {
         },
     ]
 }
+MSG_IMG = {
+    "type":"image",
+    "originalUrl":"",
+    "previewUrl":"",
+    "caption":"",
+    "filename":"",
+}
