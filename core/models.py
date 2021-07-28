@@ -8,7 +8,6 @@ class message(models.Model):
     sender= models.CharField(max_length=100,null=True,blank=True)
     countrycode= models.CharField(max_length=5,null=True,blank=True,default="91")
     dialcode= models.CharField(max_length=20,null=True,blank=True)
-# Create your models here.
 
 
 class customer(models.Model):
@@ -19,7 +18,6 @@ class customer(models.Model):
 
 class products(models.Model):
     name=models.CharField(max_length=1000)
-    #price=models.IntegerField(null=True,blank=True)
     price=models.CharField(max_length=1000,default='100.11')
     short_desc=models.CharField(max_length=1000)
     page=models.URLField()

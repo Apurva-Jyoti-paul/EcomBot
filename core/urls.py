@@ -1,8 +1,7 @@
-from . import views
 from django.urls import path
 
+from . import views
+
 urlpatterns=[
-
-path('getmessage/',views.getmessage,name='getmessage'),
-
+    path('getmessage/',views.getmessage,name='getmessage'),
 ]

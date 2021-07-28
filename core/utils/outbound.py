@@ -2,7 +2,8 @@ import json
 
 import requests
 
-from .constants import SEND_MSG_URL, HEADERS, PAYLOAD, MSG_TXT, MSG_LST, MSG_QCK
+from .constants import (HEADERS, MSG_LST, MSG_QCK, MSG_TXT, PAYLOAD,
+                        SEND_MSG_URL)
 
 
 def _set_params_and_post(dest:str, msg:dict, dispre:bool=False, url:str=SEND_MSG_URL, hdr:dict=HEADERS) -> requests.Response:

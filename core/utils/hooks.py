@@ -1,4 +1,4 @@
-from .outbound import send_txt_msg, send_lst_msg, send_qck_msg
+from .outbound import send_lst_msg, send_qck_msg, send_txt_msg
 
 
 def send_template(dest:str, tmp:str, disPre:bool=False) -> int:
