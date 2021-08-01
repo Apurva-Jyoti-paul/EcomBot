@@ -13,5 +13,5 @@ def send_categories():
 
 
 def send_products():
-    # TODO - GET the products and make logic for recurring product list and/or top 5 product list
+# TODO - GET the products and make logic for recurring product list and/or top 5 product     list
     pass

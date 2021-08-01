@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .models import products
+from .models import customer, products
 from .serializers import MessageSerializer
 from .utils.hooks import send_template
 
@@ -13,7 +13,50 @@ def getmessage(request):
     try:
         if request.method=='POST':
             mesdata=request.data.get('payload')
-            print(mesdata['payload']['text'])
+            #print(mesdata['payload']['text'])
+
+            ###view more btton cod3e
+            try:
+                if mesdata['payload']['id']=='more':
+                    usr=customer.objects.filter(number=mesdata['source'])
+                    
+                    if usr:
+                        usr=usr[0]
+                        product = products.objects.filter(name=usr.product_searched).order_by('id')
+                        l=usr.last_product_id
+                        print(l)
+                        c=product.count()
+                        c=c-l
+                        if c>=5:
+                            print('d')
+                            productdepricated=product[l:(l+5)]
+                            t=0
+                            result=''
+                            for i in productdepricated:
+                            
+                                t+=1
+                                result=result+str(t)+"}"+i.short_desc.upper()+": \n"+"Price:"+str(i.price)+"\n"+"Buy:"+i.page+"\n\n"
+                                usr.last_product_id=t
+                                #usr.product_searched=mesdata['payload']['text']
+                            usr.save()
+                            print(send_template(mesdata['source'],result))
+                        else:
+                            productdepricated=product[l:]
+                            usr.delete()
+                            t=0
+                            result=''
+                            for i in productdepricated:
+                                t+=1
+                                result=result+str(t)+"}"+i.short_desc.upper()+": \n"+"Price:"+str(i.price)+"\n"+"Buy:"+i.page+"\n\n"
+                            print(send_template(mesdata['source'],result))
+                    else:
+                        print(send_template(mesdata['source'],"Search something First Idiot"))
+                print("sdas")
+                return HttpResponse(status=200)            
+            except:
+                pass
+
+           
             databuffer={
                 'mesgcont':mesdata['payload']['text'],
                 'source' : mesdata['source'],
@@ -25,6 +68,7 @@ def getmessage(request):
             serializer = MessageSerializer(data=databuffer)
             
             if serializer.is_valid():
+
                 product = products.objects.filter(name=mesdata['payload']['text']).order_by('id')
                 t=0
                 if product.count() < 5 :
@@ -32,6 +76,30 @@ def getmessage(request):
                     for i in product:
                         t+=1
                         result=result+str(t)+"}"+i.short_desc.upper()+": \n"+"Price:"+str(i.price)+"\n"+"Buy:"+i.page+"\n\n"
+                else:
+                    productdepricated=product[0:5]
+                    usr=customer.objects.filter(number=mesdata['source'])
+                    if usr :
+                        usr=usr[0]
+                        result=''
+                        productdepricated=product[0:5]
+                        for i in productdepricated:
+                            t+=1
+                            result=result+str(t)+"}"+i.short_desc.upper()+": \n"+"Price:"+str(i.price)+"\n"+"Buy:"+i.page+"\n\n"
+                            usr.last_product_id=t
+                            usr.product_searched=mesdata['payload']['text']
+                            usr.save()
+                    else:
+                        usr=customer(number=mesdata['source'],product_searched=mesdata['payload']['text'])
+                        result=''
+                        for i in productdepricated:
+                            t+=1
+                            result=result+str(t)+"}"+i.short_desc.upper()+": \n"+"Price:"+str(i.price)+"\n"+"Buy:"+i.page+"\n\n"
+                            usr.last_product_id=t
+                            usr.product_searched=mesdata['payload']['text']
+
+                        usr.save()
+
                 print(send_template(mesdata['source'],result)) 
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
