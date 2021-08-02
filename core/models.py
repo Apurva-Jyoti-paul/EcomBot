@@ -21,3 +21,4 @@ class products(models.Model):
     price=models.CharField(max_length=1000,default='100.11')
     short_desc=models.CharField(max_length=1000)
     page=models.URLField()
+    image=models.URLField(default='https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg')
