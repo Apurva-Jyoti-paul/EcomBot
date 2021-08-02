@@ -40,7 +40,8 @@ def getmessage(request):
                                 result=str(t)+".*"+i.short_desc.upper()+"* : \n"+"*Price:* "+str(i.price)+"\n"+"*Buy:* "+i.page
                                 usr.last_product_id=t
                                 if t==l+5:
-                                    send_qck_msg(mesdata['source'],{'type':"image",'url':i.image,'caption':result},[{'title':"View More",'postbackText':'Some text'}])
+                                    send_img_msg(mesdata['source'],i.image,i.image,result)
+                                   # send_qck_msg(mesdata['source'],{'type':"image",'url':i.image,'caption':result},[{'title':"View More",'postbackText':'Some text'}])
                                 else:
                                     send_img_msg(mesdata['source'],"https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg","https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg",result)
                                 #usr.product_searched=mesdata['payload']['text']
@@ -100,7 +101,8 @@ def getmessage(request):
                             usr.product_searched=mesdata['payload']['text']
                             usr.save()
                             if t==5:
-                                print(send_qck_msg(mesdata['source'],{'type':"image",'url':i.image,'caption':result},[{'title':"View More",'postbackText':'Some text'}]))
+                                send_img_msg(mesdata['source'],i.image,i.image,result)
+                                #print(send_qck_msg(mesdata['source'],{'type':"image",'url':i.image,'caption':result},[{'title':"View More",'postbackText':'Some text'}]))
 
                             else:
                                 send_img_msg(mesdata['source'],"https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg","https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg",result)
@@ -113,7 +115,8 @@ def getmessage(request):
                             usr.last_product_id=t
                             usr.product_searched=mesdata['payload']['text']
                             if t==5:
-                                print(send_qck_msg(mesdata['source'],{'type':"image",'url':i.image,'caption':result},[{'title':"View More",'postbackText':'Some text'}]))
+                                send_img_msg(mesdata['source'],i.image,i.image,result)
+                               # print(send_qck_msg(mesdata['source'],{'type':"image",'url':i.image,'caption':result},[{'title':"View More",'postbackText':'Some text'}]))
                             else: 
                                 send_img_msg(mesdata['source'],i.image,i.image,result)
 
