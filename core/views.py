@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from .models import customer, products
 from .serializers import MessageSerializer
 from .utils.hooks import send_template
+from .utils.outbound import send_img_msg, send_qck_msg, send_txt_msg
 
 
 @api_view(['POST'])
@@ -35,22 +36,27 @@ def getmessage(request):
                             for i in productdepricated:
                             
                                 t+=1
-                                result=result+str(t)+"}"+i.short_desc.upper()+": \n"+"Price:"+str(i.price)+"\n"+"Buy:"+i.page+"\n\n"
+                                #result=str(t)+"}"+i.short_desc.upper()+": \n"+"Price:"+str(i.price)+"\n"+"Buy:"+i.page+"\n\n"
+                                result=str(t)+".*"+i.short_desc.upper()+"* : \n"+"*Price:* "+str(i.price)+"\n"+"*Buy:* "+i.page
                                 usr.last_product_id=t
+                                send_img_msg(mesdata['source'],"https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg","https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg",result)
                                 #usr.product_searched=mesdata['payload']['text']
                             usr.save()
-                            print(send_template(mesdata['source'],result))
+                          #  print(send_template(mesdata['source'],result))
                         else:
                             productdepricated=product[l:]
                             usr.delete()
-                            t=0
+                            t=l
                             result=''
                             for i in productdepricated:
                                 t+=1
-                                result=result+str(t)+"}"+i.short_desc.upper()+": \n"+"Price:"+str(i.price)+"\n"+"Buy:"+i.page+"\n\n"
-                            print(send_template(mesdata['source'],result))
+                                result=str(t)+".*"+i.short_desc.upper()+"* : \n"+"*Price:* "+str(i.price)+"\n"+"*Buy:* "+i.page
+                                #result=str(t)+"}"+i.short_desc.upper()+": \n"+"Price:"+str(i.price)+"\n"+"Buy:"+i.page+"\n\n"
+                                send_img_msg(mesdata['source'],"https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg","https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg",result)
+                           # print(send_template(mesdata['source'],result))
                     else:
                         print(send_template(mesdata['source'],"Search something First Idiot"))
+                        
                 print("sdas")
                 return HttpResponse(status=200)            
             except:
@@ -75,7 +81,8 @@ def getmessage(request):
                     result=''
                     for i in product:
                         t+=1
-                        result=result+str(t)+"}"+i.short_desc.upper()+": \n"+"Price:"+str(i.price)+"\n"+"Buy:"+i.page+"\n\n"
+                        result=str(t)+".*"+i.short_desc.upper()+"* : \n"+"*Price:* "+str(i.price)+"\n"+"*Buy:* "+i.page
+                        send_img_msg(mesdata['source'],"https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg","https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg",result)
                 else:
                     productdepricated=product[0:5]
                     usr=customer.objects.filter(number=mesdata['source'])
@@ -85,22 +92,24 @@ def getmessage(request):
                         productdepricated=product[0:5]
                         for i in productdepricated:
                             t+=1
-                            result=result+str(t)+"}"+i.short_desc.upper()+": \n"+"Price:"+str(i.price)+"\n"+"Buy:"+i.page+"\n\n"
+                            result=str(t)+".*"+i.short_desc.upper()+"* : \n"+"*Price:* "+str(i.price)+"\n"+"*Buy:* "+i.page
                             usr.last_product_id=t
                             usr.product_searched=mesdata['payload']['text']
                             usr.save()
+                            send_img_msg(mesdata['source'],"https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg","https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg",result)
                     else:
                         usr=customer(number=mesdata['source'],product_searched=mesdata['payload']['text'])
                         result=''
                         for i in productdepricated:
                             t+=1
-                            result=result+str(t)+"}"+i.short_desc.upper()+": \n"+"Price:"+str(i.price)+"\n"+"Buy:"+i.page+"\n\n"
+                            result=str(t)+".*"+i.short_desc.upper()+"* : \n"+"*Price:* "+str(i.price)+"\n"+"*Buy:* "+i.page
                             usr.last_product_id=t
                             usr.product_searched=mesdata['payload']['text']
+                            send_img_msg(mesdata['source'],i.image,i.image,result)
 
                         usr.save()
 
-                print(send_template(mesdata['source'],result)) 
+               # print(send_template(mesdata['source'],result)) 
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_200_OK)
