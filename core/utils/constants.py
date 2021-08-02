@@ -41,17 +41,7 @@ MSG_QCK = {
     "type": "quick_reply",
     "msgid":"",
     "content":{},
-    "options":[
-        {
-            "type":"text",
-        },
-        {
-            "type":"text",
-        },
-        {
-            "type":"text",
-        },
-    ]
+    "options":[]
 }
 MSG_IMG = {
     "type":"image",

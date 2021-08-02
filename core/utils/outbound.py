@@ -95,11 +95,11 @@ def send_qck_msg(dest:str, ctn:dict, opts:list) -> int:
     _msg['content'] = ctn
 
     for i,opt in enumerate(opts): # NOTE - Can only send three options
-        _msg['options'][i] = {
+        _msg['options'].append({
             'type':'text',
             'title':opt['title'],
             'postbackText':opt['postbackText']
-        }
+        })
 
     _r = _set_params_and_post(dest, _msg)
 
