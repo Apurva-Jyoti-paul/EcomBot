@@ -18,7 +18,7 @@ def getmessage(request):
 
             ###view more btton cod3e
             try:
-                if mesdata['payload']['id']=='more':
+                if mesdata['payload']['title']=='View More':
                     usr=customer.objects.filter(number=mesdata['source'])
                     
                     if usr:
