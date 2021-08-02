@@ -39,7 +39,10 @@ def getmessage(request):
                                 #result=str(t)+"}"+i.short_desc.upper()+": \n"+"Price:"+str(i.price)+"\n"+"Buy:"+i.page+"\n\n"
                                 result=str(t)+".*"+i.short_desc.upper()+"* : \n"+"*Price:* "+str(i.price)+"\n"+"*Buy:* "+i.page
                                 usr.last_product_id=t
-                                send_img_msg(mesdata['source'],"https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg","https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg",result)
+                                if t==l+5:
+                                    send_qck_msg(mesdata['source'],{'type':"image",'url':i.image,'caption':result},[{'title':"View More",'postbackText':'Some text'}])
+                                else:
+                                    send_img_msg(mesdata['source'],"https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg","https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg",result)
                                 #usr.product_searched=mesdata['payload']['text']
                             usr.save()
                           #  print(send_template(mesdata['source'],result))
@@ -57,7 +60,7 @@ def getmessage(request):
                     else:
                         print(send_template(mesdata['source'],"Search something First Idiot"))
                         
-                print("sdas")
+                print(mesdata)
                 return HttpResponse(status=200)            
             except:
                 pass
@@ -96,7 +99,11 @@ def getmessage(request):
                             usr.last_product_id=t
                             usr.product_searched=mesdata['payload']['text']
                             usr.save()
-                            send_img_msg(mesdata['source'],"https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg","https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg",result)
+                            if t==5:
+                                print(send_qck_msg(mesdata['source'],{'type':"image",'url':i.image,'caption':result},[{'title':"View More",'postbackText':'Some text'}]))
+
+                            else:
+                                send_img_msg(mesdata['source'],"https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg","https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg",result)
                     else:
                         usr=customer(number=mesdata['source'],product_searched=mesdata['payload']['text'])
                         result=''
@@ -105,13 +112,18 @@ def getmessage(request):
                             result=str(t)+".*"+i.short_desc.upper()+"* : \n"+"*Price:* "+str(i.price)+"\n"+"*Buy:* "+i.page
                             usr.last_product_id=t
                             usr.product_searched=mesdata['payload']['text']
-                            send_img_msg(mesdata['source'],i.image,i.image,result)
+                            if t==5:
+                                print(send_qck_msg(mesdata['source'],{'type':"image",'url':i.image,'caption':result},[{'title':"View More",'postbackText':'Some text'}]))
+                            else: 
+                                send_img_msg(mesdata['source'],i.image,i.image,result)
 
                         usr.save()
 
                # print(send_template(mesdata['source'],result)) 
                 serializer.save()
+                print(mesdata)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
+            print(mesdata)
             return Response(serializer.errors, status=status.HTTP_200_OK)
         else :
             return HttpResponse(status=200)
