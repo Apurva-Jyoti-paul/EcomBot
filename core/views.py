@@ -27,10 +27,10 @@ def getmessage(request):
                         print(l)
                         c=product.count()
                         c=c-l
-                        if c>=5:
+                        if c>5:
                             print('d')
                             productdepricated=product[l:(l+5)]
-                            t=0
+                            t=l
                             result=''
                             for i in productdepricated:
                             
