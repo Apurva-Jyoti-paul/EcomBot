@@ -24,6 +24,10 @@ TOKEN = os.getenv('TOKEN')
 SOURCE = os.getenv('SOURCE')
 SRC_NAME = os.getenv('SRC_NAME')
 
+SHOPIFY_API = os.getenv('SHOPIFY_API')
+SHOPIFY_PWD = os.getenv('SHOPIFY_PWD')
+SHOPIFY_SHOP = os.getenv('SHOPIFY_SHOP')
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
