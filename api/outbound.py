@@ -2,11 +2,10 @@ import json
 
 import requests
 
-from .constants import (HEADERS, MSG_IMG, MSG_LST, MSG_QCK, MSG_TXT, PAYLOAD,
-                        SEND_MSG_URL)
+from .constants import gupshup as _
 
 
-def _set_params_and_post(dest:str, msg:dict, dispre:bool=False, url:str=SEND_MSG_URL, hdr:dict=HEADERS) -> requests.Response:
+def _set_params_and_post(dest:str, msg:dict, dispre:bool=False, url:str=_.SEND_MSG_URL, hdr:dict=_.HEADERS) -> requests.Response:
     """
     To set parameters appropriately and POST to url.
 
@@ -18,7 +17,7 @@ def _set_params_and_post(dest:str, msg:dict, dispre:bool=False, url:str=SEND_MSG
     :return: `Response <Response>` object.
     """
 
-    _payload = PAYLOAD
+    _payload = _.PAYLOAD
     _payload['destination'] = dest
     _payload['message'] = json.dumps(msg)
 
@@ -37,7 +36,7 @@ def send_txt_msg(dest:str, msgstr:str, dispre:bool=False) -> int:
     :return: An integer, the status code of the response.
     """
 
-    _msg = MSG_TXT
+    _msg = _.MSG_TXT
     _msg['text'] = msgstr
 
     _r = _set_params_and_post(dest, _msg, dispre)
@@ -57,7 +56,7 @@ def send_lst_msg(dest:str, titlebody:tuple, opts:list, btntitle:str='View Produc
     :return: An integer, the status code of the response.
     """
 
-    _msg = MSG_LST
+    _msg = _.MSG_LST
     _msg['title'], _msg['body'] = titlebody
     _msg['msgid'] = 'somade_thing_asdfqwert' # will be recieved back through a hook I guess # NOTE - I think this should be unique
     _msg['globalButtons'][0]['title'] = btntitle
@@ -77,7 +76,6 @@ def send_lst_msg(dest:str, titlebody:tuple, opts:list, btntitle:str='View Produc
     return _r.status_code
 
 
-
 def send_qck_msg(dest:str, ctn:dict, opts:list) -> int:
     """
     To send a message with Quick reply buttons.
@@ -90,15 +88,13 @@ def send_qck_msg(dest:str, ctn:dict, opts:list) -> int:
     :return: An integer, the status code of the response.
     """
 
-    _msg = MSG_QCK
-    _msg['msgid'] = 'some_thing' # NOTE - Will be recieved back through a hook I guess
+    _msg = _.MSG_QCK
     _msg['content'] = ctn
 
     for i,opt in enumerate(opts): # NOTE - Can only send three options
         _msg['options'].append({
             'type':'text',
             'title':opt['title'],
-            'postbackText':opt['postbackText']
         })
 
     _r = _set_params_and_post(dest, _msg)
@@ -128,7 +124,7 @@ def send_img_msg(dest:str, ourl:str, purl:str, caption:str='', filename:str='') 
     https://www.buildquickbots.com/whatsapp/media/sample/png/sample02.png
     """
 
-    _msg = MSG_IMG
+    _msg = _.MSG_IMG
     _msg['originalUrl'] = ourl
     _msg['previewUrl'] = purl
     _msg['caption'] = caption
